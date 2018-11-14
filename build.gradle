@@ -1,0 +1,15 @@
+apply from: 'https://raw.githubusercontent.com/yahoo/parsec/master/parsec-base-build/src/main/resources/parsec.gradle'
+
+group = 'yahoo.ec'
+
+buildscript {
+    //additional buildscript components
+}
+
+repositories {
+    //additional repositories
+}
+
+dependencies {
+    //additional dependencies
+}

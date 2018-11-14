@@ -1,0 +1,15 @@
+# Mac temp file
+.DS_STORE
+
+# vim swap file
+.*.swp
+
+# compiled output
+build/
+
+# gradle
+.gradle/
+
+# IntelliJ
+.idea
+*.iml
