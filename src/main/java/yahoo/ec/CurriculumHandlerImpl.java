@@ -42,7 +42,7 @@ public class CurriculumHandlerImpl implements CurriculumHandler {
         */
         // Test DynamoDB with web service
         AmazonDynamoDB client = AmazonDynamoDBClientBuilder.standard()
-            .withRegion(Regions.AP_NORTHEAST_1)
+            .withRegion(Regions.AP_SOUTHEAST_1)
             .build();
 
         DynamoDB dynamoDB = new DynamoDB(client);
