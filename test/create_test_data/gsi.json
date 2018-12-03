@@ -1,0 +1,25 @@
+[
+  {
+    "Create": {
+      "IndexName": "ListAllCourses",
+      "KeySchema": [
+        {
+          "AttributeName": "CourseName",
+          "KeyType": "HASH"
+        },
+        {
+          "AttributeName": "TeacherName",
+          "KeyType": "RANGE"
+        }
+      ],
+      "Projection": {
+        "ProjectionType": "INCLUDE",
+        "NonKeyAttributes": ["TeacherId"]
+      },
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 5,
+        "WriteCapacityUnits": 5
+      }
+    }
+  }
+]
