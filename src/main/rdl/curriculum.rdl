@@ -1,14 +1,16 @@
-namespace yahoo.ec;
+namespace com.yahoo.ec;
 name curriculum;
 version 1;
 
-type Student struct {
-    string name (x_not_null="groups=insert", x_size="min=3,max=5,groups=update|insert");
-    string id (x_null="groups=insert");
+type Course struct {
+    string teacherId (x_not_null="groups=insert");
+    string courseName (x_not_null="groups=update");
+    string teacherName;
+    int32 maxSeats;
 }
 
-resource Student GET "/students/{id}" {
-    int32 id;
+resource Course GET "/courses?studentId={studentId}" {
+    string studentId;
 
     expected OK;
     exceptions {
@@ -18,3 +20,16 @@ resource Student GET "/students/{id}" {
         ResourceError FORBIDDEN;
     }
 }
+
+resource string POST "/courses" {
+    Course user (x_must_validate="insert");
+
+    expected OK;
+    exceptions {
+        ResourceError INTERNAL_SERVER_ERROR;
+        ResourceError BAD_REQUEST;
+        ResourceError UNAUTHORIZED;
+        ResourceError FORBIDDEN;
+    }
+}
+
