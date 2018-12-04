@@ -9,3 +9,7 @@ type Course struct {
   String teacherName;
   Int32 maxSeats;
 }
+
+type CoursesResponse struct {
+	Array<string> courses;
+}
