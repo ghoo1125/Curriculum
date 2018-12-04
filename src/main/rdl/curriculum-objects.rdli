@@ -1,0 +1,11 @@
+type Student struct {
+  String studentId;
+  String studentName;
+}
+
+type Course struct {
+  String teacherId;
+  String courseName;
+  String teacherName;
+  Int32 maxSeats;
+}

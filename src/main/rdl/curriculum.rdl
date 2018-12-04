@@ -2,19 +2,4 @@ namespace yahoo.ec;
 name curriculum;
 version 1;
 
-type Student struct {
-    string name (x_not_null="groups=insert", x_size="min=3,max=5,groups=update|insert");
-    string id (x_null="groups=insert");
-}
-
-resource Student GET "/students/{id}" {
-    int32 id;
-
-    expected OK;
-    exceptions {
-        ResourceError INTERNAL_SERVER_ERROR;
-        ResourceError BAD_REQUEST;
-        ResourceError UNAUTHORIZED;
-        ResourceError FORBIDDEN;
-    }
-}
+include "curriculum-objects.rdli";
