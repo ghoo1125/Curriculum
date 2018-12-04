@@ -2,34 +2,4 @@ namespace com.yahoo.ec;
 name curriculum;
 version 1;
 
-type Course struct {
-    string teacherId (x_not_null="groups=insert");
-    string courseName (x_not_null="groups=update");
-    string teacherName;
-    int32 maxSeats;
-}
-
-resource Course GET "/courses?studentId={studentId}" {
-    string studentId;
-
-    expected OK;
-    exceptions {
-        ResourceError INTERNAL_SERVER_ERROR;
-        ResourceError BAD_REQUEST;
-        ResourceError UNAUTHORIZED;
-        ResourceError FORBIDDEN;
-    }
-}
-
-resource string POST "/courses" {
-    Course user (x_must_validate="insert");
-
-    expected OK;
-    exceptions {
-        ResourceError INTERNAL_SERVER_ERROR;
-        ResourceError BAD_REQUEST;
-        ResourceError UNAUTHORIZED;
-        ResourceError FORBIDDEN;
-    }
-}
-
+include "curriculum-objects.rdli";
