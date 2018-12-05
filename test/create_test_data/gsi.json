@@ -14,7 +14,7 @@
       ],
       "Projection": {
         "ProjectionType": "INCLUDE",
-        "NonKeyAttributes": ["TeacherId"]
+        "NonKeyAttributes": ["TeacherId", "MaxSeats"]
       },
       "ProvisionedThroughput": {
         "ReadCapacityUnits": 5,
