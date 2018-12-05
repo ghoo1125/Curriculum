@@ -1,6 +1,6 @@
-package yahoo.ec;
+package com.yahoo.ec;
 
-import yahoo.ec.parsec_generated.ParsecExceptionMapper;
+import com.yahoo.ec.parsec_generated.ParsecExceptionMapper;
 import javax.ws.rs.core.Configuration;
 import javax.ws.rs.core.Context;
 

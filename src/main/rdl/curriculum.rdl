@@ -1,11 +1,14 @@
-namespace yahoo.ec;
+namespace com.yahoo.ec;
 name curriculum;
 version 1;
 
 include "curriculum-objects.rdli";
 include "curriculum-endpoints.rdli";
 
-resource CoursesResponse GET "/courses" {
+
+resource CoursesResponse GET "/courses?studentId={studentId}" {
+    string studentId;
+
     expected OK;
     exceptions {
         ResourceError INTERNAL_SERVER_ERROR;
@@ -14,3 +17,16 @@ resource CoursesResponse GET "/courses" {
         ResourceError FORBIDDEN;
     }
 }
+
+resource Course POST "/courses" {
+    Course course;
+
+    expected OK;
+    exceptions {
+        ResourceError INTERNAL_SERVER_ERROR;
+        ResourceError BAD_REQUEST;
+        ResourceError UNAUTHORIZED;
+        ResourceError FORBIDDEN;
+    }
+}
+

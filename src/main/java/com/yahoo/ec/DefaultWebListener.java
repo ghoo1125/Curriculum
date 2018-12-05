@@ -1,9 +1,9 @@
-package yahoo.ec;
+package com.yahoo.ec;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.annotation.WebListener;
 
-import yahoo.ec.parsec_generated.ParsecWebListener;
+import com.yahoo.ec.parsec_generated.ParsecWebListener;
 
 /**
  * Default Web listener, replace web.xml.

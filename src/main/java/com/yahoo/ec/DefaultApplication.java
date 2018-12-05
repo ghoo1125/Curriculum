@@ -1,8 +1,8 @@
-package yahoo.ec;
+package com.yahoo.ec;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 
-import yahoo.ec.parsec_generated.ParsecApplication;
+import com.yahoo.ec.parsec_generated.ParsecApplication;
 
 /**
  * This is the entry point of Jersey, which is defined in web.xml.

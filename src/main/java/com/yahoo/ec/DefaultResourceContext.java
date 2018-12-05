@@ -1,6 +1,6 @@
-package yahoo.ec;
+package com.yahoo.ec;
 
-import yahoo.ec.parsec_generated.ResourceContext;
+import com.yahoo.ec.parsec_generated.ResourceContext;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

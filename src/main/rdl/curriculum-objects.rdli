@@ -4,8 +4,8 @@ type Student struct {
 }
 
 type Course struct {
-  String teacherId;
-  String courseName;
+  String teacherId (x_not_null="groups=insert");
+  String courseName (x_not_null="groups=insert");
   String teacherName;
   Int32 maxSeats;
 }
