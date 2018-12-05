@@ -19,8 +19,11 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 import software.amazon.awssdk.services.dynamodb.model.AttributeValue;
 import software.amazon.awssdk.services.dynamodb.model.GetItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.ScanRequest;
+import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
 
-
+import java.net.URISyntaxException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -31,6 +34,58 @@ import java.util.ArrayList;
  * CurriculumHandlerImpl is interface implementation that implement CurriculumHandler interface.
  */
 public class CurriculumHandlerImpl implements CurriculumHandler {
+    private final String COURSE_TABLE_NAME = "Course";
+    private final String LIST_COURSES_INDEX_NAME = "ListAllCourses";
+
+    @Override
+    public CoursesResponse getCoursesAll(ResourceContext context) {
+        CoursesResponse res = new CoursesResponse();
+
+        try {
+            // FIXME Should setup DynamoDB with region when deploy to AWS.
+            DynamoDbClient ddb = DynamoDbClient.builder().endpointOverride(
+                new URI("http://localhost:8000")).build();
+
+            ScanRequest scanReq = ScanRequest.builder()
+                .tableName(COURSE_TABLE_NAME)
+                .indexName(LIST_COURSES_INDEX_NAME)
+                .build();
+            ScanResponse scanRes = ddb.scan(scanReq);
+
+            List<Course> courseList = new ArrayList<Course>();
+
+            for (Map<String, AttributeValue> map : scanRes.items()) {
+                Course course = new Course();
+
+                if (map.get("TeacherId") != null) {
+                    course.setTeacherId(map.get("TeacherId").s());
+                }
+                if (map.get("CourseName") != null) {
+                    course.setCourseName(map.get("CourseName").s());
+                }
+                if (map.get("TeacherName") != null) {
+                    course.setTeacherName(map.get("TeacherName").s());
+                }
+                if (map.get("MaxSeats") != null) {
+                    course.setMaxSeats(
+                        Integer.parseInt(map.get("MaxSeats").n()));
+                }
+
+                courseList.add(course);
+            }
+
+            res.setCourses(courseList);
+            res.setResultsTotal(courseList.size());
+        } catch (DynamoDbException e) {
+            System.out.println(e.getMessage());
+            return null;
+        } catch(URISyntaxException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+        return res;
+    }
 
     @Override
     public CoursesResponse getCourses(ResourceContext context, String studentId) {
