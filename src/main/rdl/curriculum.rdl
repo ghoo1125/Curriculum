@@ -39,3 +39,15 @@ resource CoursesResponse GET "/courses/all" {
         ResourceError FORBIDDEN;
     }
 }
+
+resource StudentsResponse GET "/students?teacherId={teacherId}" {
+    String teacherId;
+
+    expected OK;
+    exceptions {
+        ResourceError INTERNAL_SERVER_ERROR;
+        ResourceError BAD_REQUEST;
+        ResourceError UNAUTHORIZED;
+        ResourceError FORBIDDEN;
+    }
+}
