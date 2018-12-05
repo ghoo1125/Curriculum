@@ -3,9 +3,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1235"},
+          "TeacherId": {"S": "1235"},
           "CourseName": {"S": "Endangerment"},
           "TeacherName": {"S": "Aaliyah Griffin"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -13,9 +14,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1235"},
+          "TeacherId": {"S": "1235"},
           "CourseName": {"S": "Media"},
           "TeacherName": {"S": "Aaliyah Griffin"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -23,9 +25,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1235"},
+          "TeacherId": {"S": "1235"},
           "CourseName": {"S": "Stigma"},
           "TeacherName": {"S": "Aaliyah Griffin"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -33,9 +36,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1236"},
+          "TeacherId": {"S": "1236"},
           "CourseName": {"S": "Sound"},
           "TeacherName": {"S": "Karis Mcneil"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -43,9 +47,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1236"},
+          "TeacherId": {"S": "1236"},
           "CourseName": {"S": "Representation"},
           "TeacherName": {"S": "Karis Mcneil"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -53,9 +58,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1236"},
+          "TeacherId": {"S": "1236"},
           "CourseName": {"S": "Antiracism in Modern Japanese Literature"},
           "TeacherName": {"S": "Karis Mcneil"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -63,9 +69,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1237"},
+          "TeacherId": {"S": "1237"},
           "CourseName": {"S": "Modernity and Land in Real and Harmonic Analysis"},
           "TeacherName": {"S": "Fionn Montoya"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -73,9 +80,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1238"},
+          "TeacherId": {"S": "1238"},
           "CourseName": {"S": "Mechanisms"},
           "TeacherName": {"S": "Ishmael Ventura"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -83,9 +91,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1238"},
+          "TeacherId": {"S": "1238"},
           "CourseName": {"S": "Class"},
           "TeacherName": {"S": "Ishmael Ventura"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -93,9 +102,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1238"},
+          "TeacherId": {"S": "1238"},
           "CourseName": {"S": "Atmosphere"},
           "TeacherName": {"S": "Ishmael Ventura"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -103,9 +113,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1239"},
+          "TeacherId": {"S": "1239"},
           "CourseName": {"S": "Mining"},
           "TeacherName": {"S": "Kathryn Sampson"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -113,9 +124,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1239"},
+          "TeacherId": {"S": "1239"},
           "CourseName": {"S": "Renaissance"},
           "TeacherName": {"S": "Kathryn Sampson"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -123,9 +135,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1239"},
+          "TeacherId": {"S": "1239"},
           "CourseName": {"S": "Class"},
           "TeacherName": {"S": "Kathryn Sampson"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -133,9 +146,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1240"},
+          "TeacherId": {"S": "1240"},
           "CourseName": {"S": "Words"},
           "TeacherName": {"S": "Arwel Gardner"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -143,9 +157,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1240"},
+          "TeacherId": {"S": "1240"},
           "CourseName": {"S": "Devices"},
           "TeacherName": {"S": "Arwel Gardner"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -153,9 +168,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1240"},
+          "TeacherId": {"S": "1240"},
           "CourseName": {"S": "Europe"},
           "TeacherName": {"S": "Arwel Gardner"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -163,9 +179,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1241"},
+          "TeacherId": {"S": "1241"},
           "CourseName": {"S": "Identity and Frege in the American Imagination"},
           "TeacherName": {"S": "Randall Cannon"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -173,9 +190,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1242"},
+          "TeacherId": {"S": "1242"},
           "CourseName": {"S": "Dependency and Neighborhoods in Molecular Biology"},
           "TeacherName": {"S": "Rebekah James"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -183,9 +201,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1243"},
+          "TeacherId": {"S": "1243"},
           "CourseName": {"S": "Communism and Flourishing in Sociocultural Anthropology: Design and Methods"},
           "TeacherName": {"S": "Darrel Humphreys"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -193,9 +212,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1244"},
+          "TeacherId": {"S": "1244"},
           "CourseName": {"S": "Pathophysiology"},
           "TeacherName": {"S": "Kaylum Bryant"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -203,9 +223,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1244"},
+          "TeacherId": {"S": "1244"},
           "CourseName": {"S": "Interpretation in Modern Latin America"},
           "TeacherName": {"S": "Kaylum Bryant"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -213,9 +234,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1244"},
+          "TeacherId": {"S": "1244"},
           "CourseName": {"S": "Development"},
           "TeacherName": {"S": "Kaylum Bryant"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }
@@ -223,9 +245,10 @@
     {
       "PutRequest": {
         "Item": {
-          "TeacherId": {"N": "1245"},
+          "TeacherId": {"S": "1245"},
           "CourseName": {"S": "Development"},
           "TeacherName": {"S": "Kaylum Bryant"},
+          "MaxSeats": {"N": "40"},
           "Students": {"L": []}
         }
       }

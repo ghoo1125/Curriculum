@@ -1,22 +1,22 @@
 #!/bin/bash
 
-# create-table
+# create-table: create course table
 aws dynamodb create-table \
 --table-name Course \
---attribute-definitions AttributeName=TeacherId,AttributeType=N AttributeName=CourseName,AttributeType=S \
+--attribute-definitions AttributeName=TeacherId,AttributeType=S AttributeName=CourseName,AttributeType=S \
 --key-schema AttributeName=TeacherId,KeyType=HASH AttributeName=CourseName,KeyType=RANGE \
 --provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
 --endpoint-url http://localhost:8000
 
-# batch-write-item
+# batch-write-item: write course items
 # DeleteRequest: Perform a DeleteItem operation on specified item.
 # PutRequest: Perform a PutItem operation on specified item.
 # BatchWriteItem can write up to 16 MB of data, which can comprise as many as 25 put or delete requests. 
 aws dynamodb batch-write-item \
---request-items file://request-items.json \
+--request-items file://course-items.json \
 --endpoint-url http://localhost:8000
 
-# update-table
+# update-table: create secondary index for course table
 # Update Global Secondary Index for Course table. The GSI can also be created with create-table.
 # Local Secondary Index MUST create with create-table.
 aws dynamodb update-table \
@@ -24,7 +24,30 @@ aws dynamodb update-table \
 --global-secondary-index-updates file://gsi.json \
 --attribute-definitions AttributeName=CourseName,AttributeType=S AttributeName=TeacherName,AttributeType=S \
 --endpoint-url http://localhost:8000
-:'
+
+# create-table: create student table
+aws dynamodb create-table \
+--table-name Student \
+--attribute-definitions AttributeName=StudentId,AttributeType=S \
+--key-schema AttributeName=StudentId,KeyType=HASH \
+--provisioned-throughput ReadCapacityUnits=5,WriteCapacityUnits=5 \
+--endpoint-url http://localhost:8000
+
+# batch-write-item: write student items
+aws dynamodb batch-write-item \
+--request-items file://student-items1.json \
+--endpoint-url http://localhost:8000
+aws dynamodb batch-write-item \
+--request-items file://student-items2.json \
+--endpoint-url http://localhost:8000
+aws dynamodb batch-write-item \
+--request-items file://student-items3.json \
+--endpoint-url http://localhost:8000
+aws dynamodb batch-write-item \
+--request-items file://student-items4.json \
+--endpoint-url http://localhost:8000
+
+: '
 # update-item
 aws dynamodb update-item \
 --table-name Course \

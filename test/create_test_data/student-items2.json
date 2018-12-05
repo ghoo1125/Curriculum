@@ -1,0 +1,229 @@
+{
+  "Student": [
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100025"},
+          "StudentName": {"S": "Mekhi Dolan"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100026"},
+          "StudentName": {"S": "Hanan Currie"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100027"},
+          "StudentName": {"S": "Reon Fitzpatrick"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100028"},
+          "StudentName": {"S": "Ocean Thorpe"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100029"},
+          "StudentName": {"S": "Daisy-May Heaton"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100030"},
+          "StudentName": {"S": "Kofi Norton"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100031"},
+          "StudentName": {"S": "Weronika Nairn"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100032"},
+          "StudentName": {"S": "Fahad Daniels"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100033"},
+          "StudentName": {"S": "Gerald Irvine"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100034"},
+          "StudentName": {"S": "Alex Mcbride"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100035"},
+          "StudentName": {"S": "Ciaron Rhodes"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100036"},
+          "StudentName": {"S": "Marcie Hendricks"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100037"},
+          "StudentName": {"S": "Marina Wickens"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100038"},
+          "StudentName": {"S": "Rosa Manning"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100039"},
+          "StudentName": {"S": "Lance Findlay"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100040"},
+          "StudentName": {"S": "Azeem Davey"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100041"},
+          "StudentName": {"S": "Florence Cresswell"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100042"},
+          "StudentName": {"S": "Joy Donnelly"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100043"},
+          "StudentName": {"S": "Jawad Herman"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100044"},
+          "StudentName": {"S": "Vihaan Reyna"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100045"},
+          "StudentName": {"S": "Theo Rangel"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100046"},
+          "StudentName": {"S": "Ibraheem York"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100047"},
+          "StudentName": {"S": "Markus Benton"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100048"},
+          "StudentName": {"S": "Naomi Burch"},
+          "Courses": {"L": []}
+        }
+      }
+    },
+    {
+      "PutRequest": {
+        "Item": {
+          "StudentId": {"S": "100049"},
+          "StudentName": {"S": "Daria Griffith"},
+          "Courses": {"L": []}
+        }
+      }
+    }
+  ]
+}
