@@ -8,10 +8,11 @@ import java.util.concurrent.CompletableFuture;
 import com.yahoo.ec.parsec_generated.ResourceException;
 import com.yahoo.ec.parsec_generated.Student;
 import com.yahoo.ec.parsec_generated.Course;
+import com.yahoo.ec.parsec_generated.CoursesResponse;
 
 
 public interface CurriculumClient {
 
-    CompletableFuture<Course> getCourse(String studentId) throws ResourceException;
-    CompletableFuture<String> postCourse(Course user) throws ResourceException;
+    CompletableFuture<CoursesResponse> getCoursesResponse(String studentId) throws ResourceException;
+    CompletableFuture<Course> postCourse(Course course) throws ResourceException;
 }

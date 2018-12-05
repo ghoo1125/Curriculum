@@ -1,0 +1,4 @@
+type CoursesResponse struct {
+    Array<Course> courses;
+    Int32 resultsTotal;
+}

@@ -7,6 +7,7 @@ package com.yahoo.ec;
 import com.yahoo.ec.parsec_generated.ResourceException;
 import com.yahoo.ec.parsec_generated.Student;
 import com.yahoo.ec.parsec_generated.Course;
+import com.yahoo.ec.parsec_generated.CoursesResponse;
 
 import com.ning.http.client.AsyncHandler;
 import com.yahoo.parsec.clients.DefaultAsyncCompletionHandler;
@@ -113,7 +114,7 @@ public class CurriculumClientImpl implements CurriculumClient {
     }
 
     @Override
-    public CompletableFuture<Course> getCourse(String studentId) throws ResourceException {
+    public CompletableFuture<CoursesResponse> getCoursesResponse(String studentId) throws ResourceException {
         String path = "/courses";
         String body = null;
 
@@ -123,18 +124,18 @@ public class CurriculumClientImpl implements CurriculumClient {
         ParsecAsyncHttpRequest request = getRequest("GET", uri, body);
 
 
-        AsyncHandler<Course> asyncHandler = new DefaultAsyncCompletionHandler<>(Course.class);
+        AsyncHandler<CoursesResponse> asyncHandler = new DefaultAsyncCompletionHandler<>(CoursesResponse.class);
 
         return parsecAsyncHttpClient.criticalExecute(request, asyncHandler);
     }
 
     @Override
-    public CompletableFuture<String> postCourse(Course user) throws ResourceException {
+    public CompletableFuture<Course> postCourse(Course course) throws ResourceException {
         String path = "/courses";
         String body = null;
 
         try {
-            body = objectMapper.writeValueAsString(user);
+            body = objectMapper.writeValueAsString(course);
         } catch (JsonProcessingException e) {
             LOGGER.error("JsonProcessingException: " + e.getMessage());
             throw new ResourceException(ResourceException.INTERNAL_SERVER_ERROR, e.getMessage());
@@ -145,7 +146,7 @@ public class CurriculumClientImpl implements CurriculumClient {
         ParsecAsyncHttpRequest request = getRequest("POST", uri, body);
 
 
-        AsyncHandler<String> asyncHandler = new DefaultAsyncCompletionHandler<>(String.class);
+        AsyncHandler<Course> asyncHandler = new DefaultAsyncCompletionHandler<>(Course.class);
 
         return parsecAsyncHttpClient.criticalExecute(request, asyncHandler);
     }

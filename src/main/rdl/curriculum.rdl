@@ -3,6 +3,8 @@ name curriculum;
 version 1;
 
 include "curriculum-objects.rdli";
+include "curriculum-endpoints.rdli";
+
 
 resource CoursesResponse GET "/courses?studentId={studentId}" {
     string studentId;
@@ -27,3 +29,4 @@ resource Course POST "/courses" {
         ResourceError FORBIDDEN;
     }
 }
+

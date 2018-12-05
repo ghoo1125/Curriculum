@@ -24,6 +24,8 @@ import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * CurriculumHandlerImpl is interface implementation that implement CurriculumHandler interface.
@@ -46,7 +48,21 @@ public class CurriculumHandlerImpl implements CurriculumHandler {
             Map<String, AttributeValue> returned_item = ddb.getItem(request).item();
 
             if (returned_item != null) {
-                response.setCourses(returned_item.get("courses").ss());
+                List<AttributeValue> attributes = returned_item.get("courses").l();
+                List<Course> student_courses = new ArrayList<Course>();
+
+                for (AttributeValue attribute : attributes) {
+                    Map<String, AttributeValue>  fields = attribute.m();
+                    Course course = new Course();
+
+                    course.setTeacherId(fields.get("teacherId").s());
+                    course.setCourseName(fields.get("courseName").s());
+
+                    student_courses.add(course);
+                }
+
+                response.setCourses(student_courses);
+                response.setResultsTotal(student_courses.size());
             }
         } catch (DynamoDbException e) {
             System.err.println(e.getMessage());
