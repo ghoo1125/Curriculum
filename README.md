@@ -7,7 +7,7 @@ Besides, the web service is built into a docker image and deployed on AWS with E
 Curriculum is built using [Parsec](https://yahoo.github.io/parsec/) open source. On MacOS please follow the steps.
 
 
-####_MacOS_
+#### _MacOS_
 Download java 1.8 and gradle 2.14 via Homebrew:
 ~~~~
 $ brew cask install java8
@@ -31,7 +31,7 @@ Run the command to build the project into war file:
 $ gradle war
 ~~~~
 
-####_Note_
+#### _Note_
 - There are some problems in building project with Parsec using latest gradle version,
   though the document says that it supports gradle version >2.4.
 - To dynamically change gradle version, you can use [gradle wrapper](https://docs.gradle.org/current/userguide/gradle_wrapper.html) instead.
@@ -39,7 +39,7 @@ $ gradle war
 ## Docker
 You should download [Docker](https://docs.docker.com/docker-for-mac/install/) before building project into Docker image.
 
-####_Build Docker Image_
+#### _Build Docker Image_
 Since the web service built with Parsec is deployed with jetty server. We build our image based on [jetty image](https://hub.docker.com/_/jetty/).
 Add a _**Dockefile**_ under the root directory of your project with following content:
 ~~~~
@@ -61,7 +61,7 @@ $ docker image ls
 ## AWS Environment Setup
 To deploy the service on AWS, please make sure you have registered an AWS account and installed [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-install-macos.html) in advance.
 
-####_Elastic Container Registry (ECR)_
+#### _Elastic Container Registry (ECR)_
 ECR is a fully-managed Docker container registry that makes it easy for developers to store, manage, and deploy Docker container images.
 To push our image to ECR please follow the steps:
 
@@ -88,7 +88,7 @@ To push our image to ECR please follow the steps:
     $ docker push ecr_repo_name:tag_name
     ~~~~
 
-####_Elastic Container Service (ECS)_
+#### _Elastic Container Service (ECS)_
 Amazon Elastic Container Service (Amazon ECS) is a highly scalable, high-performance container orchestration service that supports Docker containers and allows you to easily run and scale containerized applications on AWS.
 To deploy web service on AWS with ECS Fargate please follow the steps:
 
@@ -103,7 +103,7 @@ If everything works fine, you should see a instance is launched, and you are abl
 ## DynamoDB
 We use DynamoDB as our database in Curriculum.
 
-####_Using DynamoDB JAVA API_
+#### _Using DynamoDB JAVA API_
 Add following content to _build.gradle_ file under the project directory.
 ~~~~
 repositories {
@@ -117,9 +117,9 @@ dependencies {
 }
 ~~~~
 Then you are good to import and develop with DynamoDB API. Besides, you have to create a new [IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
-with the policy __AmazonDynamoDBFullAccess__ is attached if you want to deploy the web service on AWS. 
+with the policy __AmazonDynamoDBFullAccess__ attached if you want to deploy the web service on AWS. 
 
-####_Note:_
+#### _Note_
 - You can also access the DynamoDB in a specific region directly with _aws dynamodb_ command.
 - You can also [download DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html) and test it locally.
 
