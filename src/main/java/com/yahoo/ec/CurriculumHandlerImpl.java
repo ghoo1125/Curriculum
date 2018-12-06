@@ -10,6 +10,7 @@ import com.yahoo.ec.parsec_generated.ResourceContext;
 import com.yahoo.ec.parsec_generated.CurriculumHandler;
 import com.yahoo.ec.parsec_generated.CoursesResponse;
 import com.yahoo.ec.parsec_generated.StudentsResponse;
+import com.yahoo.ec.parsec_generated.CourseRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +26,8 @@ import software.amazon.awssdk.services.dynamodb.model.ScanResponse;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
 import software.amazon.awssdk.services.dynamodb.model.ConditionalOperator;
+import software.amazon.awssdk.services.dynamodb.model.UpdateItemRequest;
+import software.amazon.awssdk.services.dynamodb.model.UpdateItemResponse;
 
 import java.net.URISyntaxException;
 import java.net.URI;
@@ -40,6 +43,7 @@ import java.util.HashSet;
  */
 public class CurriculumHandlerImpl implements CurriculumHandler {
     private final String COURSE_TABLE_NAME = "Course";
+    private final String STUDENT_TABLE_NAME = "Student";
     private final String LIST_COURSES_INDEX_NAME = "ListAllCourses";
 
     @Override
@@ -84,7 +88,7 @@ public class CurriculumHandlerImpl implements CurriculumHandler {
         } catch (DynamoDbException e) {
             System.out.println(e.getMessage());
             return null;
-        } catch(URISyntaxException e) {
+        } catch (URISyntaxException e) {
             System.out.println(e.getMessage());
             return null;
         }
@@ -202,12 +206,89 @@ public class CurriculumHandlerImpl implements CurriculumHandler {
         } catch (DynamoDbException e) {
             System.out.println(e.getMessage());
             return null;
-        } catch(URISyntaxException e) {
+        } catch (URISyntaxException e) {
             System.out.println(e.getMessage());
             return null;
         }
 
         return res;
+    }
+
+    @Override
+    public Course putCoursesByTeacherId(
+            ResourceContext context,
+            String teacherId,
+            CourseRequest request
+    ) {
+        Course course = new Course();
+
+        try {
+            // FIXME Should setup DynamoDB with region when deploy to AWS.
+            DynamoDbClient ddb = DynamoDbClient.builder().endpointOverride(
+                new URI("http://localhost:8000")).build();
+
+            // Set up primary key for getItem request.
+            Map<String, AttributeValue> courseItemKey = new HashMap<String, AttributeValue>();
+            courseItemKey.put("TeacherId", AttributeValue.builder().s(teacherId).build());
+            courseItemKey.put("CourseName", AttributeValue.builder().s(request.getCourseName()).build());
+
+            GetItemRequest getItemReq = GetItemRequest.builder().key(courseItemKey).tableName(COURSE_TABLE_NAME).build();
+            Map<String, AttributeValue> item = ddb.getItem(getItemReq).item();
+
+            // Update tables if course exist, not full and not selected by the student.
+            if (item != null) {
+                List<AttributeValue> studentList = item.get("Students").l();
+                Integer maxSeats = Integer.parseInt(item.get("MaxSeats").n());
+
+                if (studentList.size() < maxSeats) {
+                    Map<String, AttributeValue> attrValues = new HashMap<String,AttributeValue>();
+                    attrValues.put(":c", AttributeValue.builder()
+                            .l(AttributeValue.builder().s(request.getStudentId()).build())
+                            .build());
+
+                    if (!studentList.contains(AttributeValue.builder().s(request.getStudentId()).build())) {
+                        // Update Course table.
+                        UpdateItemRequest updateCourseItemReq = UpdateItemRequest.builder()
+                            .tableName(COURSE_TABLE_NAME)
+                            .key(courseItemKey)
+                            .updateExpression("SET Students = list_append(Students, :c)")
+                            .expressionAttributeValues(attrValues)
+                            .build();
+                        ddb.updateItem(updateCourseItemReq);
+
+                        // Update Student table.
+                        Map<String, AttributeValue> studentItemKey = new HashMap<String, AttributeValue>();
+                        studentItemKey.put("StudentId", AttributeValue.builder().s(request.getStudentId()).build());
+                        Map<String, AttributeValue> insertVal = new HashMap<String,AttributeValue>();
+                        insertVal.put("TeacherId", AttributeValue.builder().s(teacherId).build());
+                        insertVal.put("CourseName", AttributeValue.builder().s(request.getCourseName()).build());
+                        attrValues.put(":c", AttributeValue.builder()
+                                .l(AttributeValue.builder().m(insertVal).build())
+                                .build());
+                        UpdateItemRequest updateStudentItemReq = UpdateItemRequest.builder()
+                            .tableName(STUDENT_TABLE_NAME)
+                            .key(studentItemKey)
+                            .updateExpression("SET Courses = list_append(Courses, :c)")
+                            .expressionAttributeValues(attrValues)
+                            .build();
+                        ddb.updateItem(updateStudentItemReq);
+
+                        course.setTeacherId(teacherId);
+                        course.setCourseName(request.getCourseName());
+                        course.setTeacherName(item.get("TeacherName").s());
+                        course.setMaxSeats(maxSeats);
+                    }
+                }
+            }
+        } catch (DynamoDbException e) {
+            System.out.println(e.getMessage());
+            return null;
+        } catch (URISyntaxException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+        return course;
     }
 
     @Override
