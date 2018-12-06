@@ -7,3 +7,8 @@ type StudentsResponse struct {
     Array<Student> students;
     Int32 resultsTotal;
 }
+
+type CourseRequest struct {
+    String studentId;
+    String courseName;
+}
