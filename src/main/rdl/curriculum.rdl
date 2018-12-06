@@ -30,3 +30,38 @@ resource Course POST "/courses" {
     }
 }
 
+resource CoursesResponse GET "/courses/all" {
+    expected OK;
+    exceptions {
+        ResourceError INTERNAL_SERVER_ERROR;
+        ResourceError BAD_REQUEST;
+        ResourceError UNAUTHORIZED;
+        ResourceError FORBIDDEN;
+    }
+}
+
+resource StudentsResponse GET "/students?teacherId={teacherId}" {
+    String teacherId;
+
+    expected OK;
+    exceptions {
+        ResourceError INTERNAL_SERVER_ERROR;
+        ResourceError BAD_REQUEST;
+        ResourceError UNAUTHORIZED;
+        ResourceError FORBIDDEN;
+    }
+}
+
+resource Course PUT "/courses/{teacherId}" {
+    String teacherId;
+
+    CourseRequest request;
+
+    expected OK;
+    exceptions {
+        ResourceError INTERNAL_SERVER_ERROR;
+        ResourceError BAD_REQUEST;
+        ResourceError UNAUTHORIZED;
+        ResourceError FORBIDDEN;
+    }
+}

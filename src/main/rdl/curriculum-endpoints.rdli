@@ -2,3 +2,13 @@ type CoursesResponse struct {
     Array<Course> courses;
     Int32 resultsTotal;
 }
+
+type StudentsResponse struct {
+    Array<Student> students;
+    Int32 resultsTotal;
+}
+
+type CourseRequest struct {
+    String studentId;
+    String courseName;
+}
