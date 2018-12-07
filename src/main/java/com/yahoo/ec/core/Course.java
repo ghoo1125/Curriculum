@@ -1,10 +1,24 @@
 package com.yahoo.ec.core;
 
+import java.util.List;
+
 public class Course {
     private String teacherId;
     private String courseName;
     private String teacherName;
     private int maxSeats;
+
+    private List<String> students;
+
+
+    public List<String> getStudents() {
+        return students;
+    }
+
+    public Course setStudents(List<String> students) {
+        this.students = students;
+        return this;
+    }
 
     public String getTeacherId() {
         return teacherId;
