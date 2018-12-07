@@ -43,6 +43,24 @@ public class ServiceImpl implements Service {
     private final String STUDENT_ID = "StudentId";
     private final String COURSES = "Courses";
 
+    private DynamoDbClient ddb;
+
+    private DynamoDbClient chooseDynamoDb() {
+        if (System.getenv("CURRICULUM_USE_LOCAL_DB") == null) {
+            try {
+                return DynamoDbClient.builder().endpointOverride(new URI("http://localhost:8000")).build();
+            } catch (URISyntaxException e) {
+                System.err.println(e);
+            }
+        }
+
+        return DynamoDbClient.create();
+    }
+
+    public ServiceImpl() {
+        this.ddb = chooseDynamoDb();
+    }
+
     @Override
     public Course createCourse(@Nonnull String teacherId, @Nonnull String courseName, String teacherName, int maxSeats) {
         HashMap<String,AttributeValue> itemValues = new HashMap<String,AttributeValue>();
@@ -52,7 +70,6 @@ public class ServiceImpl implements Service {
         itemValues.put(TEACHER_NAME, AttributeValue.builder().s(teacherName).build());
         itemValues.put(MAX_SEATS, AttributeValue.builder().n(Integer.toString(maxSeats)).build());
 
-        DynamoDbClient ddb = DynamoDbClient.create();
         PutItemRequest request = PutItemRequest.builder().tableName(COURSE_TABLE_NAME).item(itemValues).build();
 
         try {
@@ -74,8 +91,6 @@ public class ServiceImpl implements Service {
         keyToGet.put(STUDENT_ID, AttributeValue.builder().s(studentId).build());
 
         GetItemRequest request = GetItemRequest.builder().key(keyToGet).tableName(STUDENT_TABLE_NAME).build();
-
-        DynamoDbClient ddb = DynamoDbClient.create();
 
         List<Course> student_courses = new ArrayList<Course>();
         try {
@@ -104,12 +119,7 @@ public class ServiceImpl implements Service {
     @Override
     public List<Course> getCoursesAll() {
         List<Course> courseList = new ArrayList<Course>();
-
         try {
-            // FIXME Should setup DynamoDB with region when deploy to AWS.
-            DynamoDbClient ddb = DynamoDbClient.builder().endpointOverride(
-                    new URI("http://localhost:8000")).build();
-
             ScanRequest scanReq = ScanRequest.builder()
                     .tableName(COURSE_TABLE_NAME)
                     .indexName(LIST_COURSES_INDEX_NAME)
@@ -138,10 +148,6 @@ public class ServiceImpl implements Service {
 
         } catch (DynamoDbException e) {
             System.out.println(e.getMessage());
-            return null;
-        } catch (URISyntaxException e) {
-            System.out.println(e.getMessage());
-            return null;
         }
 
         return courseList;
@@ -152,8 +158,6 @@ public class ServiceImpl implements Service {
         Course result = new Course();
 
         try {
-            DynamoDbClient ddb = DynamoDbClient.builder().endpointOverride(new URI("http://localhost:8000")).build();
-
             Map<String, AttributeValue> courseItemKey = new HashMap<String, AttributeValue>();
             courseItemKey.put(TEACHER_ID, AttributeValue.builder().s(teacherId).build());
             courseItemKey.put(COURSE_NAME, AttributeValue.builder().s(courseName).build());
@@ -173,8 +177,6 @@ public class ServiceImpl implements Service {
             }
         } catch (DynamoDbException e) {
             System.out.println(e.getMessage());
-        } catch (URISyntaxException e) {
-            System.out.println(e.getMessage());
         }
 
         return result;
@@ -183,9 +185,6 @@ public class ServiceImpl implements Service {
     @Override
     public Course addStudentToCourse(@Nonnull Course course, String studentId) {
         try {
-            // FIXME Should setup DynamoDB with region when deploy to AWS.
-            DynamoDbClient ddb = DynamoDbClient.builder().endpointOverride(new URI("http://localhost:8000")).build();
-
             // Set up primary key.
             Map<String, AttributeValue> courseItemKey = new HashMap<String, AttributeValue>();
             courseItemKey.put(TEACHER_ID, AttributeValue.builder().s(course.getTeacherId()).build());
@@ -229,13 +228,9 @@ public class ServiceImpl implements Service {
 
         } catch (DynamoDbException e) {
             System.out.println(e.getMessage());
-            return null;
-        } catch (URISyntaxException e) {
-            System.out.println(e.getMessage());
-            return null;
         }
 
-        return null;
+        return course;
     }
 
     @Override
@@ -243,9 +238,6 @@ public class ServiceImpl implements Service {
         List<Student> studentList = new ArrayList<Student>();
 
         try {
-            // FIXME Should setup DynamoDB with region when deploy to AWS.
-            DynamoDbClient ddb = DynamoDbClient.builder().endpointOverride(new URI("http://localhost:8000")).build();
-
             // Set up mapping of the partition name with the value.
             String partitionKeyName = ":tid";
             HashMap<String, AttributeValue> attrValues = new HashMap<String,AttributeValue>();
@@ -271,10 +263,6 @@ public class ServiceImpl implements Service {
             }
         } catch (DynamoDbException e) {
             System.out.println(e.getMessage());
-            return null;
-        } catch (URISyntaxException e) {
-            System.out.println(e.getMessage());
-            return null;
         }
 
         return studentList;
