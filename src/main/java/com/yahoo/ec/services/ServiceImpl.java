@@ -34,22 +34,31 @@ public class ServiceImpl implements Service {
     private final String STUDENT_TABLE_NAME = "Student";
     private final String LIST_COURSES_INDEX_NAME = "ListAllCourses";
 
+    private final String TEACHER_ID = "TeacherId";
+    private final String COURSE_NAME = "CourseName";
+    private final String TEACHER_NAME = "TeacherName";
+    private final String MAX_SEATS = "MaxSeats";
+    private final String STUDENTS = "Students";
+
+    private final String STUDENT_ID = "StudentId";
+    private final String COURSES = "Courses";
+
     @Override
     public Course createCourse(@Nonnull String teacherId, @Nonnull String courseName, String teacherName, int maxSeats) {
-        HashMap<String,AttributeValue> item_values = new HashMap<String,AttributeValue>();
+        HashMap<String,AttributeValue> itemValues = new HashMap<String,AttributeValue>();
 
-        item_values.put("teacherId", AttributeValue.builder().s(teacherId).build());
-        item_values.put("courseName", AttributeValue.builder().s(courseName).build());
-        item_values.put("teacherName", AttributeValue.builder().s(teacherName).build());
-        item_values.put("maxSeats", AttributeValue.builder().n(Integer.toString(maxSeats)).build());
+        itemValues.put(TEACHER_ID, AttributeValue.builder().s(teacherId).build());
+        itemValues.put(COURSE_NAME, AttributeValue.builder().s(courseName).build());
+        itemValues.put(TEACHER_NAME, AttributeValue.builder().s(teacherName).build());
+        itemValues.put(MAX_SEATS, AttributeValue.builder().n(Integer.toString(maxSeats)).build());
 
         DynamoDbClient ddb = DynamoDbClient.create();
-        PutItemRequest request = PutItemRequest.builder().tableName("Courses").item(item_values).build();
+        PutItemRequest request = PutItemRequest.builder().tableName(COURSE_TABLE_NAME).item(itemValues).build();
 
         try {
             ddb.putItem(request);
         } catch (ResourceNotFoundException e) {
-            System.err.format("Error: The table \"%s\" can't be found.\n", "Courses");
+            System.err.format("Error: The table \"%s\" can't be found.\n", COURSE_TABLE_NAME);
             System.err.println("Be sure that it exists and that you've typed its name correctly!");
         } catch (DynamoDbException e) {
             System.err.println(e.getMessage());
@@ -60,27 +69,27 @@ public class ServiceImpl implements Service {
 
     @Override
     public List<Course> getCourseByStudentId(@Nonnull String studentId) {
-        HashMap<String, AttributeValue> key_to_get = new HashMap<String, AttributeValue>();
+        HashMap<String, AttributeValue> keyToGet = new HashMap<String, AttributeValue>();
 
-        key_to_get.put("studentId", AttributeValue.builder().s(studentId).build());
+        keyToGet.put(STUDENT_ID, AttributeValue.builder().s(studentId).build());
 
-        GetItemRequest request = GetItemRequest.builder().key(key_to_get).tableName("Student").build();
+        GetItemRequest request = GetItemRequest.builder().key(keyToGet).tableName(STUDENT_TABLE_NAME).build();
 
         DynamoDbClient ddb = DynamoDbClient.create();
 
         List<Course> student_courses = new ArrayList<Course>();
         try {
-            Map<String, AttributeValue> returned_item = ddb.getItem(request).item();
+            Map<String, AttributeValue> returnedItem = ddb.getItem(request).item();
 
-            if (returned_item != null) {
-                List<AttributeValue> attributes = returned_item.get("courses").l();
+            if (returnedItem != null) {
+                List<AttributeValue> attributes = returnedItem.get(COURSES).l();
 
                 for (AttributeValue attribute : attributes) {
                     Map<String, AttributeValue>  fields = attribute.m();
                     Course course = new Course();
 
-                    course.setTeacherId(fields.get("teacherId").s());
-                    course.setCourseName(fields.get("courseName").s());
+                    course.setTeacherId(fields.get(TEACHER_ID).s());
+                    course.setCourseName(fields.get(COURSE_NAME).s());
 
                     student_courses.add(course);
                 }
@@ -110,18 +119,18 @@ public class ServiceImpl implements Service {
             for (Map<String, AttributeValue> map : scanRes.items()) {
                 Course course = new Course();
 
-                if (map.get("TeacherId") != null) {
-                    course.setTeacherId(map.get("TeacherId").s());
+                if (map.get(TEACHER_ID) != null) {
+                    course.setTeacherId(map.get(TEACHER_ID).s());
                 }
-                if (map.get("CourseName") != null) {
-                    course.setCourseName(map.get("CourseName").s());
+                if (map.get(COURSE_NAME) != null) {
+                    course.setCourseName(map.get(COURSE_NAME).s());
                 }
-                if (map.get("TeacherName") != null) {
-                    course.setTeacherName(map.get("TeacherName").s());
+                if (map.get(TEACHER_NAME) != null) {
+                    course.setTeacherName(map.get(TEACHER_NAME).s());
                 }
-                if (map.get("MaxSeats") != null) {
+                if (map.get(MAX_SEATS) != null) {
                     course.setMaxSeats(
-                            Integer.parseInt(map.get("MaxSeats").n()));
+                            Integer.parseInt(map.get(MAX_SEATS).n()));
                 }
 
                 courseList.add(course);
@@ -146,21 +155,21 @@ public class ServiceImpl implements Service {
             DynamoDbClient ddb = DynamoDbClient.builder().endpointOverride(new URI("http://localhost:8000")).build();
 
             Map<String, AttributeValue> courseItemKey = new HashMap<String, AttributeValue>();
-            courseItemKey.put("TeacherId", AttributeValue.builder().s(teacherId).build());
-            courseItemKey.put("CourseName", AttributeValue.builder().s(courseName).build());
+            courseItemKey.put(TEACHER_ID, AttributeValue.builder().s(teacherId).build());
+            courseItemKey.put(COURSE_NAME, AttributeValue.builder().s(courseName).build());
 
             GetItemRequest getItemReq = GetItemRequest.builder().key(courseItemKey).tableName(COURSE_TABLE_NAME).build();
             Map<String, AttributeValue> item = ddb.getItem(getItemReq).item();
 
             if (item != null) {
-                List<AttributeValue> studentIds = item.get("Students").l();
+                List<AttributeValue> studentIds = item.get(STUDENTS).l();
                 List<String> studentList = new ArrayList<String>();
 
                 for (AttributeValue s : studentIds) {
                     studentList.add(s.s());
                 }
 
-                result.setStudents(studentList).setMaxSeats(Integer.parseInt(item.get("MaxSeats").n()));
+                result.setStudents(studentList).setMaxSeats(Integer.parseInt(item.get(MAX_SEATS).n()));
             }
         } catch (DynamoDbException e) {
             System.out.println(e.getMessage());
@@ -179,8 +188,8 @@ public class ServiceImpl implements Service {
 
             // Set up primary key.
             Map<String, AttributeValue> courseItemKey = new HashMap<String, AttributeValue>();
-            courseItemKey.put("TeacherId", AttributeValue.builder().s(course.getTeacherId()).build());
-            courseItemKey.put("CourseName", AttributeValue.builder().s(course.getCourseName()).build());
+            courseItemKey.put(TEACHER_ID, AttributeValue.builder().s(course.getTeacherId()).build());
+            courseItemKey.put(COURSE_NAME, AttributeValue.builder().s(course.getCourseName()).build());
 
             Map<String, AttributeValue> attrValues = new HashMap<String,AttributeValue>();
             attrValues.put(":c", AttributeValue.builder().l(AttributeValue.builder().s(studentId).build()).build());
@@ -190,7 +199,7 @@ public class ServiceImpl implements Service {
             UpdateItemRequest updateCourseItemReq = UpdateItemRequest.builder()
                     .tableName(COURSE_TABLE_NAME)
                     .key(courseItemKey)
-                    .updateExpression("SET Students = list_append(Students, :c)")
+                    .updateExpression("SET " + STUDENTS + " = list_append(" + STUDENTS + ", :c)")
                     .expressionAttributeValues(attrValues)
                     .build();
 
@@ -199,11 +208,11 @@ public class ServiceImpl implements Service {
             // Update Student table.
             // Could try DynamoDB Stream later
             Map<String, AttributeValue> studentItemKey = new HashMap<String, AttributeValue>();
-            studentItemKey.put("StudentId", AttributeValue.builder().s(studentId).build());
+            studentItemKey.put(STUDENT_ID, AttributeValue.builder().s(studentId).build());
 
             Map<String, AttributeValue> insertVal = new HashMap<String, AttributeValue>();
-            insertVal.put("TeacherId", AttributeValue.builder().s(course.getTeacherId()).build());
-            insertVal.put("CourseName", AttributeValue.builder().s(course.getCourseName()).build());
+            insertVal.put(TEACHER_ID, AttributeValue.builder().s(course.getTeacherId()).build());
+            insertVal.put(COURSE_NAME, AttributeValue.builder().s(course.getCourseName()).build());
 
             attrValues.put(":c", AttributeValue.builder()
                     .l(AttributeValue.builder().m(insertVal).build())
@@ -212,7 +221,7 @@ public class ServiceImpl implements Service {
             UpdateItemRequest updateStudentItemReq = UpdateItemRequest.builder()
                     .tableName(STUDENT_TABLE_NAME)
                     .key(studentItemKey)
-                    .updateExpression("SET Courses = list_append(Courses, :c)")
+                    .updateExpression("SET " + COURSES + " = list_append(" + COURSES + ", :c)")
                     .expressionAttributeValues(attrValues)
                     .build();
 
@@ -244,7 +253,7 @@ public class ServiceImpl implements Service {
 
             QueryRequest queryReq = QueryRequest.builder()
                     .tableName(COURSE_TABLE_NAME)
-                    .keyConditionExpression("TeacherId = " + partitionKeyName)
+                    .keyConditionExpression(TEACHER_ID + " = " + partitionKeyName)
                     .expressionAttributeValues(attrValues)
                     .build();
 
@@ -252,7 +261,7 @@ public class ServiceImpl implements Service {
 
             // Iterate over every student in each course item.
             for (Map<String, AttributeValue> map : queryRes.items()) {
-                List<AttributeValue> students = map.get("Students").l();
+                List<AttributeValue> students = map.get(STUDENTS).l();
 
                 for (AttributeValue s : students) {
                     Student student = new Student();
