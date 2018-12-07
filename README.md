@@ -101,19 +101,15 @@ in previous step. And make sure you __open port 8080 in the security group__ (de
 If everything works fine, you should see a instance is launched, and you are able to connect to the service through the public IP.
 
 ## DynamoDB
-We use DynamoDB as our database in Curriculum.
+We use DynamoDB as our database in Curriculum. The SDK version 2.0.
 
 #### _Using DynamoDB JAVA API_
 Add following content to _build.gradle_ file under the project directory.
 ~~~~
-repositories {
-    maven {
-      url 'https://s3-ap-northeast-1.amazonaws.com/dynamodb-local-tokyo/release'
-    }
-}
-
 dependencies {
-    compile 'com.amazonaws:aws-java-sdk-dynamodb:1.11.86'
+//additional dependencies
+    // https://mvnrepository.com/artifact/software.amazon.awssdk/dynamodb
+    compile group: 'software.amazon.awssdk', name: 'dynamodb', version: '2.1.3'
 }
 ~~~~
 Then you are good to import and develop with DynamoDB API. Besides, you have to create a new [IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html)
