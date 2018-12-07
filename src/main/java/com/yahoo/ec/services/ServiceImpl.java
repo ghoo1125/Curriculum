@@ -69,7 +69,7 @@ public class ServiceImpl implements Service {
         itemValues.put(COURSE_NAME, AttributeValue.builder().s(courseName).build());
         itemValues.put(TEACHER_NAME, AttributeValue.builder().s(teacherName).build());
         itemValues.put(MAX_SEATS, AttributeValue.builder().n(Integer.toString(maxSeats)).build());
-        itemValues.put(COURSES, AttributeValue.builder().l(new ArrayList<AttributeValue>()).build());
+        itemValues.put(STUDENTS, AttributeValue.builder().l(new ArrayList<AttributeValue>()).build());
 
         PutItemRequest request = PutItemRequest.builder().tableName(COURSE_TABLE_NAME).item(itemValues).build();
 
