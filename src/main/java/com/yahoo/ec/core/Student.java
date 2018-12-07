@@ -2,7 +2,7 @@ package com.yahoo.ec.core;
 
 public class Student {
     private String studentId;
-    private String studentname;
+    private String studentName;
 
     public String getStudentId() {
         return studentId;
@@ -13,12 +13,12 @@ public class Student {
         return this;
     }
 
-    public String getStudentname() {
-        return studentname;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public Student setStudentname(String studentname) {
-        this.studentname = studentname;
+    public Student setStudentName(String studentName) {
+        this.studentName = studentName;
         return this;
     }
 }
