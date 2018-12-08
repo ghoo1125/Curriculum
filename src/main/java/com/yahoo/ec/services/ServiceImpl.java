@@ -174,7 +174,8 @@ public class ServiceImpl implements Service {
                     studentList.add(s.s());
                 }
 
-                result.setStudents(studentList).setMaxSeats(Integer.parseInt(item.get(MAX_SEATS).n()));
+                result.setStudents(studentList).setMaxSeats(Integer.parseInt(item.get(MAX_SEATS).n()))
+                      .setTeacherId(teacherId).setCourseName(courseName);
             }
         } catch (DynamoDbException e) {
             System.out.println(e.getMessage());

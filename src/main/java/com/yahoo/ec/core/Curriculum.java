@@ -44,8 +44,9 @@ public class Curriculum {
     public Course registerCourse(String teacherId, String courseName, String studentId) {
         Course target = service.getOneCourseStudents(teacherId, courseName);
 
-        if (target.getStudents().size() < target.getMaxSeats()) {
-            target = service.addStudentToCourse(target,  studentId);
+        if (target.getStudents().size() < target.getMaxSeats() &&
+            !target.getStudents().contains(studentId)) {
+            target = service.addStudentToCourse(target, studentId);
         }
 
         return target;
