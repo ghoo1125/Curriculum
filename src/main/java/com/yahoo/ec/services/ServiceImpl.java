@@ -46,7 +46,7 @@ public class ServiceImpl implements Service {
     private DynamoDbClient ddb;
 
     private DynamoDbClient chooseDynamoDb() {
-        if (System.getenv("CURRICULUM_USE_LOCAL_DB") == null) {
+        if (System.getenv("CURRICULUM_USE_LOCAL_DB") != null) {
             try {
                 return DynamoDbClient.builder().endpointOverride(new URI("http://localhost:8000")).build();
             } catch (URISyntaxException e) {
@@ -174,7 +174,8 @@ public class ServiceImpl implements Service {
                     studentList.add(s.s());
                 }
 
-                result.setStudents(studentList).setMaxSeats(Integer.parseInt(item.get(MAX_SEATS).n()));
+                result.setStudents(studentList).setMaxSeats(Integer.parseInt(item.get(MAX_SEATS).n()))
+                      .setTeacherId(teacherId).setCourseName(courseName);
             }
         } catch (DynamoDbException e) {
             System.out.println(e.getMessage());
