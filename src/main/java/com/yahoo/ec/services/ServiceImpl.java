@@ -46,7 +46,7 @@ public class ServiceImpl implements Service {
     private DynamoDbClient ddb;
 
     private DynamoDbClient chooseDynamoDb() {
-        if (System.getenv("CURRICULUM_USE_LOCAL_DB") == null) {
+        if (System.getenv("CURRICULUM_USE_LOCAL_DB") != null) {
             try {
                 return DynamoDbClient.builder().endpointOverride(new URI("http://localhost:8000")).build();
             } catch (URISyntaxException e) {
