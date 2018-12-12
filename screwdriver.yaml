@@ -1,0 +1,24 @@
+jobs:
+    build:
+        image: docker-registry.ops.yahoo.com:4443/nevec/sd-aws-orbit-base-centos
+        requires: ~commit
+        steps:
+        - build_war: |
+            yum install -y java-1.8.0-openjdk-devel
+            export TERM=xterm
+            ./gradlew war
+        - build_image: |
+            # A script wrap in the image to run docker daemon
+            docker-start
+            docker build -t curriculum .
+        - push_ecr: |
+            # A script wrap in the image to get temp credential
+            aws-builder-creds -k /sd/tokens/key -c /sd/tokens/cert -d ec-horizontal.rewards-dev -r sd-builder -z zts.athenz.ouroath.com  > ~/.aws/credentials
+            # Get login info and execute the output to login
+            $(aws ecr get-login --no-include-email --region ap-southeast-1)
+            docker tag curriculum:latest 690060915618.dkr.ecr.ap-southeast-1.amazonaws.com/hchang-test-repo:latest
+            docker push 690060915618.dkr.ecr.ap-southeast-1.amazonaws.com/hchang-test-repo:latest
+        - deploy_ecs_service: |
+            # Service should be created in advance so we only need to create new task definition and update the service
+            aws ecs register-task-definition --family hchang-test-taskdef --requires-compatibilities '["FARGATE"]' --container '[{"name": "hchang-test-container", "image": "690060915618.dkr.ecr.ap-southeast-1.amazonaws.com/hchang-test-repo:latest", "portMappings": [{"containerPort": 8080, "hostPort": 8080, "protocol": "tcp"}], "essential": true}]' --cpu 256 --memory 512 --network-mode awsvpc --execution-role-arn ecsTaskExecutionRole --task-role-arn hchang-test-role --region ap-southeast-1
+            aws ecs update-service --cluster hchang-test-cluster --service hchang-test-service --task-definition hchang-test-taskdef --region ap-southeast-1
