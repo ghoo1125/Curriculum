@@ -4,7 +4,7 @@ Besides, the web service is built into a docker image and deployed on AWS with E
 
 
 ## Build
-Curriculum is built using [Parsec](https://yahoo.github.io/parsec/) open source. On MacOS please follow the steps.
+Curriculum is built using [Parsec](https://yahoo.github.io/parsec/) open-source. On MacOS please follow the steps.
 
 
 #### _MacOS_
@@ -48,9 +48,9 @@ COPY ./build/libs/your_project_name_version.war $JETTY_BASE/webapps/ROOT.war
 ~~~~
 Here we rename the file as ROOT.war so jetty will deploy the service with a [context path](https://www.eclipse.org/jetty/documentation/9.4.x/configuring-contexts.html) of /.
 
-Then run the command to build the docker image with a specified tag name:
+Then navigate to the root directory of the project and run the command to build the docker image with a specified tag name:
 ~~~~
-$ docker build -t a_tag_name
+$ docker build -t a_tag_name .
 ~~~~
 
 Run the command to check whether your image is built succesfully:
@@ -65,14 +65,14 @@ To deploy the service on AWS, please make sure you have registered an AWS accoun
 ECR is a fully-managed Docker container registry that makes it easy for developers to store, manage, and deploy Docker container images.
 To push our image to ECR please follow the steps:
 
-1. Create a access key through [AWS console](https://aws.amazon.com/console/) by navigating to __My Security Credentials__ panel. Then set [access key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html) and
-[region](https://docs.aws.amazon.com/general/latest/gr/rande.html) with the command:
+1. Create a access key through [AWS Management Console](https://aws.amazon.com/console/) by navigating to __My Security Credentials__ panel. Then set [access key](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html) and
+[region](https://docs.aws.amazon.com/general/latest/gr/rande.html) with the AWS CLI command:
     ~~~~
     $ aws configure
     ~~~~
     __Note:__ The command will create a profile under _~/.aws_ folder.
 
-2. Run the command to authenticate Docker to ECR, then execute the output of the command again:
+2. Run the command to authenticate Docker to ECR, then execute the output of the command again to login:
     ~~~~
     $ aws ecr get-login —no-include-email
     ~~~~
@@ -96,18 +96,17 @@ To deploy web service on AWS with ECS Fargate please follow the steps:
 2. Navigate to ECS on AWS console then select __Task Definitions__. Next, create a task definition and add a container with the __image path set to your image stored in ECR__ (In the format of registry/repository:tag).
 For example: _aws_account_id_.dkr.ecr._region_.amazonaws.com/_my-web-app_:_latest_
 3. Navigate to ECS on AWS console then select __Clusters__. Create a task in the cluster you just created
-in previous step. And make sure you __open port 8080 in the security group__ (default service port used by jetty server).
+in the first step. And make sure you __open port 8080 in the security group__ (default service port used by jetty server).
 
 If everything works fine, you should see a instance is launched, and you are able to connect to the service through the public IP.
 
 ## DynamoDB
-We use DynamoDB as our database in Curriculum. The SDK version 2.0.
+We use DynamoDB as our database in Curriculum and access the database with the AWS SDK version 2.0 for Java.
 
 #### _Using DynamoDB JAVA API_
 Add following content to _build.gradle_ file under the project directory.
 ~~~~
 dependencies {
-//additional dependencies
     // https://mvnrepository.com/artifact/software.amazon.awssdk/dynamodb
     compile group: 'software.amazon.awssdk', name: 'dynamodb', version: '2.1.3'
 }
@@ -116,9 +115,5 @@ Then you are good to import and develop with DynamoDB API. Besides, you have to 
 with the policy __AmazonDynamoDBFullAccess__ attached if you want to deploy the web service on AWS. 
 
 #### _Note_
-- You can also access the DynamoDB in a specific region directly with _aws dynamodb_ command.
+- You can also access the DynamoDB in a specific region directly using _aws dynamodb_ command.
 - You can also [download DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html) and test it locally.
-
-## ScrewDriver
-
-TBD
